@@ -1,11 +1,35 @@
-import { PropsWithChildren } from 'react';
-import App from '../../App';
+import { PropsWithChildren, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { IRootState } from '../../store';
+import { toggleRTL, toggleTheme, toggleLocale, toggleMenu, toggleLayout, toggleAnimation, toggleNavbar, toggleSemidark } from '../../store/themeConfigSlice';
+import store from '../../store';
+import { AuthProvider } from '../../contexts/AuthContext';
 
 const BlankLayout = ({ children }: PropsWithChildren) => {
+    const themeConfig = useSelector((state: IRootState) => state.themeConfig);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(toggleTheme(localStorage.getItem('theme') || themeConfig.theme));
+        dispatch(toggleMenu(localStorage.getItem('menu') || themeConfig.menu));
+        dispatch(toggleLayout(localStorage.getItem('layout') || themeConfig.layout));
+        dispatch(toggleRTL(localStorage.getItem('rtlClass') || themeConfig.rtlClass));
+        dispatch(toggleAnimation(localStorage.getItem('animation') || themeConfig.animation));
+        dispatch(toggleNavbar(localStorage.getItem('navbar') || themeConfig.navbar));
+        dispatch(toggleLocale(localStorage.getItem('i18nextLng') || themeConfig.locale));
+        dispatch(toggleSemidark(localStorage.getItem('semidark') || themeConfig.semidark));
+    }, [dispatch, themeConfig.theme, themeConfig.menu, themeConfig.layout, themeConfig.rtlClass, themeConfig.animation, themeConfig.navbar, themeConfig.locale, themeConfig.semidark]);
+
     return (
-        <App>
-            <div className="text-black dark:text-white-dark min-h-screen">{children} </div>
-        </App>
+        <AuthProvider>
+            <div
+                className={`${(store.getState().themeConfig.sidebar && 'toggle-sidebar') || ''} ${themeConfig.menu} ${themeConfig.layout} ${
+                    themeConfig.rtlClass
+                } main-section antialiased relative font-nunito text-sm font-normal`}
+            >
+                <div className="text-black dark:text-white-dark min-h-screen">{children} </div>
+            </div>
+        </AuthProvider>
     );
 };
 

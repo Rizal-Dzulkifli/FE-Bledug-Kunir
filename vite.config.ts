@@ -14,5 +14,7 @@ export default defineConfig({
     },
     server: {
         host: '0.0.0.0',
+        port: 3000, // Ganti dengan port yang Anda inginkan
+        strictPort: false, // Jika port sudah digunakan, cari port kosong berikutnya
       },
 });
