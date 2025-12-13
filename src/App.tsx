@@ -4,6 +4,7 @@ import { IRootState } from './store';
 import { toggleRTL, toggleTheme, toggleLocale, toggleMenu, toggleLayout, toggleAnimation, toggleNavbar, toggleSemidark } from './store/themeConfigSlice';
 import store from './store';
 import { AuthProvider } from './contexts/AuthContext';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 function App({ children }: PropsWithChildren) {
     const themeConfig = useSelector((state: IRootState) => state.themeConfig);
@@ -29,6 +30,7 @@ function App({ children }: PropsWithChildren) {
             >
                 {children}
             </div>
+            <SpeedInsights />
         </AuthProvider>
     );
 }
