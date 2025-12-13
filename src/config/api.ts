@@ -22,16 +22,18 @@ export const getAuthHeaders = () => {
 
 // Helper function to build API endpoint
 export const buildApiUrl = (endpoint: string) => {
-    // Remove leading slash if present
+    // Remove leading slash if present to prevent double slashes
     const cleanEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
     
-    // If endpoint starts with 'api/', use base URL directly
+    // If endpoint already starts with 'api/', use base URL directly
     if (cleanEndpoint.startsWith('api/')) {
         return `${API_BASE_URL}/${cleanEndpoint}`;
     }
     
     // Otherwise, add /api prefix
-    return `${API_URL}/${cleanEndpoint}`;
+    // Ensure no double slash by checking if API_URL ends with slash
+    const baseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
+    return `${baseUrl}/${cleanEndpoint}`;
 };
 
 export default {
