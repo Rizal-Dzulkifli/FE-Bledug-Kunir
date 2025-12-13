@@ -14,6 +14,8 @@ export const getAuthHeaders = () => {
     const token = localStorage.getItem('token');
     return {
         'Content-Type': 'application/json',
+        // Tambahkan header khusus untuk bypass ngrok browser warning
+        'ngrok-skip-browser-warning': 'true',
         ...(token && { 'Authorization': `Bearer ${token}` }),
     };
 };
