@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { Icon } from '@iconify-icon/react';
 import { setPageTitle } from '../../store/themeConfigSlice';
-import { buildApiUrl } from '../../config/api';
+import { API_BASE_URL } from '../../config/api';
 
 const ResetPasswordBoxed = () => {
     const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const ResetPasswordBoxed = () => {
 
         try {
             // Cek terlebih dahulu apakah email ada di database tanpa SweetAlert
-            const checkResponse = await fetch(buildApiUrl("/password/check-email"), {
+            const checkResponse = await fetch(`${API_BASE_URL}/password/check-email`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -55,7 +55,7 @@ const ResetPasswordBoxed = () => {
             });
 
             // Lakukan permintaan reset password
-            const resetResponse = await fetch(buildApiUrl("/password/resetlink"), {
+            const resetResponse = await fetch(`${API_BASE_URL}/password/resetlink`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

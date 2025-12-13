@@ -4,7 +4,9 @@
  */
 
 // Get API base URL from environment variable or fallback to localhost
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:3333';
+// Remove trailing slash to prevent double slashes
+const rawApiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:3333';
+export const API_BASE_URL = rawApiBaseUrl.endsWith('/') ? rawApiBaseUrl.slice(0, -1) : rawApiBaseUrl;
 
 // API endpoints with /api prefix
 export const API_URL = `${API_BASE_URL}/api`;
@@ -30,10 +32,8 @@ export const buildApiUrl = (endpoint: string) => {
         return `${API_BASE_URL}/${cleanEndpoint}`;
     }
     
-    // Otherwise, add /api prefix
-    // Ensure no double slash by checking if API_URL ends with slash
-    const baseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
-    return `${baseUrl}/${cleanEndpoint}`;
+    // Otherwise, add /api prefix (API_BASE_URL already normalized, no trailing slash)
+    return `${API_URL}/${cleanEndpoint}`;
 };
 
 export default {
